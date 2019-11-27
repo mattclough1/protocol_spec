@@ -23,7 +23,6 @@ All new SDL implementations should implement the newest version of the protocol.
 |appRevokedPermissions|[Common.PermissionItem](../../common/structs/#permissionitem)|false|array: true<br>minsize: 1<br>maxsize: 100||
 |isAppRevoked|Boolean|true|||
 |priority|[Common.AppPriority](../../common/enums/#apppriority)|false|||
-
 |||
 User Registration Diagram
 ![UserRegistration](../assets/img/user_registration_diagram.jpg)
