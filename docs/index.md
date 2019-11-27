@@ -3,7 +3,7 @@
 **Current Version: 4.0.0**
 
 ## 1. Overview
-The SmartDeviceLink protocol specification describes the method for establishing communication between an application and head unit and registering the application for continued communication with the head unit. The protocol is used as the base formation of packets sent from one module to another. 
+The SmartDeviceLink protocol specification describes the method for establishing communication between an application and head unit and registering the application for continued communication with the head unit. The protocol is used as the base formation of packets sent from one module to another.
 
 All new SDL implementations should implement the newest version of the protocol.
 
@@ -13,6 +13,16 @@ All new SDL implementations should implement the newest version of the protocol.
 |------|-------------|
 |**Module / Head Unit**| Hardware implementing the sdl_core software|
 |**Application**| Smart device application that implements the proxy library (iOS or Android)|
+
+|Name|Type|Mandatory|Description|
+|:---|:---|:--------|:----------|
+|isSDLAllowed|Boolean|true|SDL returns:‘true’, in case the User has allowed using the device for PolicyTable Exchange. ‘false’, in case the User has not yet been asked for or in case the User has disallowed using the device for PolicyTable Exchange.|
+|device|[Common.DeviceInfo]|false||
+|isPermissionsConsentNeeded|Boolean|true||
+|isAppPermissionsRevoked|Boolean|true||
+|appRevokedPermissions|[Common.PermissionItem]|false|array: true<br>minsize: 1<br>maxsize: 100|
+|isAppRevoked|Boolean|true||
+|priority|[Common.AppPriority]|false||
 
 ## 2. Frames
 All transported data is formed with a header followed by an optional payload. The combination of header and payload is referred to as a frame.
@@ -193,7 +203,7 @@ All transported data is formed with a header followed by an optional payload. Th
   <tr>
     <td>Message ID</td>
     <td>32 bit</td>
-    <td>The message identifier, used to uniquely identify this message.<br> 
+    <td>The message identifier, used to uniquely identify this message.<br>
     <b>Note:</b> Only included in protocol version 2 frame headers and higher</td>
   </tr>
 </table>
@@ -210,7 +220,7 @@ The max transport unit (MTU) of a frame varies based on version. The MTU include
 
 
 #### 2.4.1 Payload Size
-The payload size is determined by the MTU - Frame Header Size. 
+The payload size is determined by the MTU - Frame Header Size.
 
 | Version | Max Payload Size (bytes) |
 |------|-------------|
@@ -220,10 +230,10 @@ The payload size is determined by the MTU - Frame Header Size.
 |**4**| 131,072|
 
 #### 2.4.2 Encrypted MTU
-While the supported MTU is the maximum size for that version, if a frame is encrypted it will be subject to the MTU of that encryption protocol as well. That means the MTU will have to be the minimum between SDL's MTU  and the encryption protocol's MTU. 
+While the supported MTU is the maximum size for that version, if a frame is encrypted it will be subject to the MTU of that encryption protocol as well. That means the MTU will have to be the minimum between SDL's MTU  and the encryption protocol's MTU.
 
 ## 3. Frame Types
-### 3.1 Control Frame 
+### 3.1 Control Frame
 Control frames are the lowest-level type of packets. They can be sent over any of the defined services. They are used for the control of the services in which they are sent.
 
 #### 3.1.1 Special Header Definitions:
@@ -268,9 +278,9 @@ A frame of type Single Frame contains all the data for a particular packet in th
 |--------------|---------------|-------------|
 |Frame Info| `0x00`|Reserved|
 |Data Size| 0x01-0xFFFFFFFF|Total payload size in bytes for this frame|
- 
+
 ### 3.3 Multiple Frame Packets
-Some payloads will be larger than the maximum transport unit will allow. If that is the case, the payload will be broken up over multiple frames. These frame types are First and Consecutive. 
+Some payloads will be larger than the maximum transport unit will allow. If that is the case, the payload will be broken up over multiple frames. These frame types are First and Consecutive.
 
 <table width="100%">
   <tr style="visibility:hidden;">
@@ -304,7 +314,7 @@ Some payloads will be larger than the maximum transport unit will allow. If that
     <td> Header</td>
     <td colspan = "1" >Payload</td>
   </tr>
-  
+
   <tr>
      <th colspan = "2" style="visibility:hidden;"></th>
      <th colspan = "3">Consecutive Frame 1</th>
@@ -323,7 +333,7 @@ Some payloads will be larger than the maximum transport unit will allow. If that
 	<td>Header</td>
 	<td colspan = "2" >Payload</td>  
   </tr>
-  
+
   <tr style="border:0;">
      <td colspan = "7" style="visibility:hidden; border:0;"></td>
      <td style="font-size:25px; border:0; background-color:white;" align="center">...</td>
@@ -339,7 +349,7 @@ Some payloads will be larger than the maximum transport unit will allow. If that
 	<td colspan = "2" >Payload</td>  
   </tr>
 
-</table> 
+</table>
 
 
 #### 3.3.1 First Frame
@@ -373,7 +383,7 @@ The First Frame in a multiple frame payload contains information about the entir
 |Data Size| `0x08`|This frame contains a fixed data size (8 bytes) for the payload.|
 
 #### 3.3.2 Consecutive Frame
-The Consecutive Frames in a multiple frame payload contain the actual raw data of the original payload. The parsed payload contained in each of the Consecutive Frames' payloads should be buffered until the entire sequence is complete. 
+The Consecutive Frames in a multiple frame payload contain the actual raw data of the original payload. The parsed payload contained in each of the Consecutive Frames' payloads should be buffered until the entire sequence is complete.
 
 ##### 3.3.2.1 Special Header Definitions:
 
@@ -387,7 +397,7 @@ The Consecutive Frames in a multiple frame payload contain the actual raw data o
 ### 4.1 Transport Layer
 >Required: All Protocol Versions
 
-A physical transport must be established between a head unit and an application before an SDL session can start. 
+A physical transport must be established between a head unit and an application before an SDL session can start.
 
 ### 4.2 Version Negotiation
 >Required: All Protocol Versions
@@ -508,7 +518,7 @@ If a session has already been started, or can't be started, a `StartServiceNAK` 
 Each application registers for continued communication with the head unit by sending a `RegisterAppInterface` Request RPC to the head unit via the RPC Service. Additional services can only be started after a successful `RegisterAppInterface` Response RPC has been sent from the head unit to the application.
 
 ### 4.4 Starting other services
-While the RPC service is the default service that is started to establish a connection and a session, the application may wish to start other services. Similar to the process in Section 4, all services that are to be to started in a session require a `StartService` packet to be sent from the application. If the module supports and allows that service type to be started, it will respond with a `StartServiceACK` that has a payload of the hash ID for that service. If the module is unable to start that service or that application does not have access to that service, it will respond with a `StartServiceNAK`. 
+While the RPC service is the default service that is started to establish a connection and a session, the application may wish to start other services. Similar to the process in Section 4, all services that are to be to started in a session require a `StartService` packet to be sent from the application. If the module supports and allows that service type to be started, it will respond with a `StartServiceACK` that has a payload of the hash ID for that service. If the module is unable to start that service or that application does not have access to that service, it will respond with a `StartServiceNAK`.
 
 ### 4.5 Heartbeat
 >**Deprecated: Protocol Versions 4 and higher** <br>
@@ -597,8 +607,8 @@ After a successful start service exchange between the application and head unit 
 There is currently no heartbeat NAK.
 
 ## 5. Services
-Every active session has the ability to start any of the services defined in this protocol spec as long as they have permission on the module in which they are connected. Every session can only have one of each type of service open at a time. 
- 
+Every active session has the ability to start any of the services defined in this protocol spec as long as they have permission on the module in which they are connected. Every session can only have one of each type of service open at a time.
+
 Messages sent have a priority based on their Service Type. Lower values for service type have higher delivery priority. A message's payload's format is based on the different service types defined below.
 
 ### 5.1 Control Service
@@ -717,9 +727,9 @@ The application can start the video service to send H.264 video data to the head
 
 
 ## 6. Ending Communication
-The application may request it's session to be ended outside of a transport disconnect, module power cycle, etc. 
+The application may request it's session to be ended outside of a transport disconnect, module power cycle, etc.
 ### 6.1 Completely Closing  a Session and Ending All Services
-To close out a communication session with the head unit, an application sends an `EndService` packet with service type 7 (RPC) to the module. The `EndService` packet payload should include the correct hash ID supplied with the `StartServiceACK`. 
+To close out a communication session with the head unit, an application sends an `EndService` packet with service type 7 (RPC) to the module. The `EndService` packet payload should include the correct hash ID supplied with the `StartServiceACK`.
 
 ### 6.2 Closing Specific Services
 If the application doesn't want to completely stop its session, but only wishes to close a specific session it can do so using an `EndService` packet that's service type matches the service that the application is trying to close. The `EndService` packet should include the hash ID in its payload that was contained in the `StartServiceACK` for  that specific service.
