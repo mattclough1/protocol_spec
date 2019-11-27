@@ -9,11 +9,26 @@ All new SDL implementations should implement the newest version of the protocol.
 
 ### 1.1 Common Terms
 
-Some text
+| Term | Description |
+|------|-------------|
+|**Module / Head Unit**| Hardware implementing the sdl_core software|
+|**Application**| Smart device application that implements the proxy library (iOS or Android)|
+
+|Name|Type|Mandatory|Additional|Description|
+|:---|:---|:--------|:---------|:----------|
+|isSDLAllowed|Boolean|true|scope: internal|SDL returns:‘true’, in case the User has allowed using the device for PolicyTable Exchange. ‘false’, in case the User has not yet been asked for or in case the User has disallowed using the device for PolicyTable Exchange.|
+|device|[Common.DeviceInfo](../../common/structs/#deviceinfo)|false|scope: internal||
+|isPermissionsConsentNeeded|Boolean|true|||
+|isAppPermissionsRevoked|Boolean|true|||
+|appRevokedPermissions|[Common.PermissionItem](../../common/structs/#permissionitem)|false|array: true<br>minsize: 1<br>maxsize: 100||
+|isAppRevoked|Boolean|true|||
+|priority|[Common.AppPriority](../../common/enums/#apppriority)|false|||
+
+Arbitrary Text
 
 |||
 User Registration Diagram
-![UserRegistration](./assets/img/user_registration_diagram.jpg)
+![UserRegistration](../assets/img/user_registration_diagram.jpg)
 |||
 
 ## 2. Frames
