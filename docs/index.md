@@ -9,11 +9,6 @@ All new SDL implementations should implement the newest version of the protocol.
 
 ### 1.1 Common Terms
 
-| Term | Description |
-|------|-------------|
-|**Module / Head Unit**| Hardware implementing the sdl_core software|
-|**Application**| Smart device application that implements the proxy library (iOS or Android)|
-
 |||
 User Registration Diagram
 ![UserRegistration](../assets/img/user_registration_diagram.jpg)
