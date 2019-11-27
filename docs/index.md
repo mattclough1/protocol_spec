@@ -9,9 +9,11 @@ All new SDL implementations should implement the newest version of the protocol.
 
 ### 1.1 Common Terms
 
+Some text
+
 |||
 User Registration Diagram
-![UserRegistration](../assets/img/user_registration_diagram.jpg)
+![UserRegistration](./assets/img/user_registration_diagram.jpg)
 |||
 
 ## 2. Frames
