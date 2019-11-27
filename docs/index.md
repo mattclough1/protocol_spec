@@ -23,10 +23,6 @@ All new SDL implementations should implement the newest version of the protocol.
 |appRevokedPermissions|[Common.PermissionItem](../../common/structs/#permissionitem)|false|array: true<br>minsize: 1<br>maxsize: 100||
 |isAppRevoked|Boolean|true|||
 |priority|[Common.AppPriority](../../common/enums/#apppriority)|false|||
-|||
-User Registration Diagram
-![UserRegistration](../assets/img/user_registration_diagram.jpg)
-|||
 
 ## 2. Frames
 All transported data is formed with a header followed by an optional payload. The combination of header and payload is referred to as a frame.
