@@ -24,7 +24,6 @@ All new SDL implementations should implement the newest version of the protocol.
 |isAppRevoked|Boolean|true|||
 |priority|[Common.AppPriority](../../common/enums/#apppriority)|false|||
 
-Arbitrary Text
 
 |||
 User Registration Diagram
