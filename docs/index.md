@@ -24,10 +24,9 @@ All new SDL implementations should implement the newest version of the protocol.
 |isAppRevoked|Boolean|true|||
 |priority|[Common.AppPriority](../../common/enums/#apppriority)|false|||
 
-
 |||
 User Registration Diagram
-![UserRegistration](../assets/img/user_registration.diagram)
+![UserRegistration](../assets/img/user_registration.jpg)
 |||
 
 ## 2. Frames
